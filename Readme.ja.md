@@ -11,7 +11,7 @@ Sublime Text 3のプラグインです。
 
 #### 一般的なフォーマッタの場合
 
-```SQL
+```sql
 SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- メーカーコード
 ,
        MI.BRAND_CD AS ITEM_BRAND_CD -- ブランドコード
@@ -27,7 +27,7 @@ WHERE 1 = 1
 
 #### uroboroSQL Formatterの場合
 
-```SQL
+```sql
 SELECT
     MI.MAKER_CD AS  ITEM_MAKER_CD   -- メーカーコード
 ,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- ブランドコード

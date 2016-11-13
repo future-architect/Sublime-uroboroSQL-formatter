@@ -9,7 +9,7 @@ for Japanese, [Readme.ja.md](Readme.ja.md)
 
 #### In case of general formatter
 
-```SQL
+```sql
 SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- メーカーコード
 ,
        MI.BRAND_CD AS ITEM_BRAND_CD -- ブランドコード
@@ -25,7 +25,7 @@ WHERE 1 = 1
 
 #### In case of uroboroSQL Formatter
 
-```SQL
+```sql
 SELECT
     MI.MAKER_CD AS  ITEM_MAKER_CD   -- メーカーコード
 ,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- ブランドコード
