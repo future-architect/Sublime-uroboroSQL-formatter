@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "uroboroSQL Formatter: Format SQL",
+        "command": "uroborosql_format"
+    }
+]
