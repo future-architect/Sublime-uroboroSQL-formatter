@@ -19,7 +19,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
         user_settings = sublime.load_settings(
             'sublime-uroborosql-formatter.sublime-settings')
         # set syntax
-        if user_settings.get('syntax') == \
+        if settings.get('syntax') == \
                 "Packages/Text/Plain text.tmLanguage":
             view.set_syntax_file("Packages/SQL/SQL.tmLanguage")
         # setting
