@@ -2,7 +2,7 @@
 '''
 @author: ota
 '''
-from sqlparseforjython import sql, tokens as T
+from sqlparse import sql, tokens as T
 from sqlformatter import tokenutils as tu
 
 class Having(sql.TokenList):

@@ -3,7 +3,7 @@
 @author: ota
 '''
 import re
-from sqlparseforjython import sql, tokens as T
+from sqlparse import sql, tokens as T
 from enum import Enum
 
 

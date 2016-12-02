@@ -3,7 +3,7 @@
 @author: ota
 '''
 import collections
-from sqlparseforjython import sql, tokens as T
+from sqlparse import sql, tokens as T
 from sqlformatter import tokenutils as tu
 from sqlformatter.sql import WithinGroupFunctions, Phrase, AscDesc, OffsetFetch, Having, _BaseWords, OverFunctions, \
     When, KeepFunctions, ForUpdate, WaitOrNowait, Union, Join, On, MergeWhen, MergeUpdateInsertClause, ConnectBy, \

@@ -11,13 +11,18 @@ class _GlobalConfig(object):
 
 class LocalConfig(object):
 
-    __slots__ = ('comment_syntax')
+    __slots__ = ('comment_syntax', 'uppercase')
 
     def __init__(self):
         self.comment_syntax = UroboroSqlCommentSyntax()
+        self.uppercase = True
 
     def set_commentsyntax(self, comment_syntax):
         self.comment_syntax = comment_syntax
+        return self
+
+    def set_uppercase(self, uppercase):
+        self.uppercase = uppercase
         return self
 
 

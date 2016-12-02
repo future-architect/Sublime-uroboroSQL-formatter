@@ -32,7 +32,9 @@ class Token(object):
         if sys.version_info[0] == 3:
             return self.value
         else:
-            return str(self).encode('utf-8')
+            # for jython bug
+            # return str(self).encode('utf-8'))
+            return self.value
 
     def __repr__(self):
         short = self._get_repr_value()

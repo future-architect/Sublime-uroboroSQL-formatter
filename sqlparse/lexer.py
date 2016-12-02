@@ -17,7 +17,6 @@ import sys
 
 from sqlparse import tokens
 from sqlparse.keywords import KEYWORDS, KEYWORDS_COMMON
-from io import StringIO
 import collections
 
 
@@ -152,8 +151,10 @@ class LexerMeta(type):
 
         return type.__call__(cls, *args, **kwds)
 
+# for jython metaclass
+LexerMetaHasVersion = LexerMeta("Lexer", (object, ), {"__doc__": LexerMeta.__doc__})
 
-class Lexer(object, metaclass=LexerMeta):
+class Lexer(LexerMetaHasVersion):
 
     encoding = 'utf-8'
     stripall = False
@@ -231,6 +232,9 @@ class Lexer(object, metaclass=LexerMeta):
         if sys.version_info[0] == 3:
             if isinstance(text, str):
                 return text
+        # for jython
+        if isinstance(text, unicode):
+            return text
         if self.encoding == 'guess':
             try:
                 text = text.decode('utf-8')
@@ -264,13 +268,20 @@ class Lexer(object, metaclass=LexerMeta):
                 text = text.strip('\n')
 
             if sys.version_info[0] < 3 and isinstance(text, str):
-                text = StringIO(text.encode('utf-8'))
+                # for jython
+                import cStringIO
+                text = cStringIO.StringIO(text)
                 self.encoding = 'utf-8'
             else:
+                # for jython move import section
+                from _io import StringIO
                 text = StringIO(text)
 
         def streamer():
             for i, t, v in self.get_tokens_unprocessed(text):
+                # for jython encode
+                if sys.version_info[0] < 3 and isinstance(v, unicode):
+                    v = v.encode('utf-8')
                 yield t, v
         stream = streamer()
         if not unfiltered:
@@ -297,10 +308,11 @@ class Lexer(object, metaclass=LexerMeta):
                 m = rexmatch(text, pos)
                 if m:
                     value = m.group()
-                    if value in known_names:
-                        yield pos, known_names[value], value
-                    elif type(action) is tokens._TokenType:
+                    # bugfix -> change if order
+                    if type(action) is tokens._TokenType:
                         yield pos, action, value
+                    elif value in known_names:
+                        yield pos, known_names[value], value
                     elif hasattr(action, '__call__'):
                         ttype, value = action(value)
                         known_names[value] = ttype

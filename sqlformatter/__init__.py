@@ -1,36 +1,33 @@
 # coding:utf-8
 '''
+SQL Formatter.
 @author: ota
 '''
-
-"""SQL Formatter."""
-
 
 
 __version__ = '0.0.1'
 
 import sys
 import re
-import sqlparseforjython as sqlparse
-from sqlformatter import filters, config
-from sqlparseforjython.lexer import Lexer
-from sqlparseforjython import tokens as T, utils
-
 from threading import Thread, Lock
+import sqlparse
+from sqlparse.lexer import Lexer
+from sqlparse import tokens as T, utils
+from sqlformatter import filters, config
 
-lock = Lock()
+LOCK = Lock()
 
-def format_sql(sql, localConfig):
+def format_sql(sql, local_config):
 
-    lock.acquire()
+    LOCK.acquire()
     try:
         if not config.glb.escape_sequence_u005c:
             # Oracleの場合リテラルの取り方がにバグがあるので置き換える
             for i, data in enumerate(Lexer.tokens["root"]):
-                Single = getattr(T.String, "Single")
+                single = getattr(T.String, "Single")
                 if data[0] == r"'(''|\\\\|\\'|[^'])*'" :
-                    if data[1] == Single:
-                        Lexer.tokens["root"][i] = (r"'(''|[^'])*'", Single)
+                    if data[1] == single:
+                        Lexer.tokens["root"][i] = (r"'(''|[^'])*'", single)
 
                         # 初期化
                         if hasattr(Lexer, "_tokens"):
@@ -52,10 +49,10 @@ def format_sql(sql, localConfig):
         else:
             # 元に戻す
             for i, data in enumerate(Lexer.tokens["root"]):
-                Single = getattr(T.String, "Single")
+                single = getattr(T.String, "Single")
                 if data[0] == r"'(''|[^'])*'" :
-                    if data[1] == Single:
-                        Lexer.tokens["root"][i] = (r"'(''|\\\\|\\'|[^'])*'" , Single)
+                    if data[1] == single:
+                        Lexer.tokens["root"][i] = (r"'(''|\\\\|\\'|[^'])*'" , single)
 
                         # 初期化
                         if hasattr(Lexer, "_tokens"):
@@ -75,29 +72,29 @@ def format_sql(sql, localConfig):
             )
             """, re.VERBOSE)
     finally:
-        lock.release()
+        LOCK.release()
 
     stack = sqlparse.engine.FilterStack()
     stack.enable_grouping()
 
-
-    stack.preprocess.append(sqlparse.filters.KeywordCaseFilter())
-    stack.preprocess.append(sqlparse.filters.IdentifierCaseFilter())
+    if local_config.uppercase:
+        stack.preprocess.append(sqlparse.filters.KeywordCaseFilter())
+        stack.preprocess.append(sqlparse.filters.IdentifierCaseFilter())
 
     stack.stmtprocess.append(filters.GroupFilter())
-    stack.stmtprocess.append(filters.LineDescriptionLineCommentFilter(localConfig))
-    stack.stmtprocess.append(filters.MoveCommaFilter(localConfig))
+    stack.stmtprocess.append(filters.LineDescriptionLineCommentFilter(local_config))
+    stack.stmtprocess.append(filters.MoveCommaFilter(local_config))
     stack.stmtprocess.append(filters.StripWhitespaceAndToTabFilter())
-    stack.stmtprocess.append(filters.AdjustGroupFilter(localConfig))
+    stack.stmtprocess.append(filters.AdjustGroupFilter(local_config))
 
     stack.stmtprocess.append(filters.OperatorFilter())
 
-    stack.stmtprocess.append(filters.CustomReindentFilter(localConfig))
+    stack.stmtprocess.append(filters.CustomReindentFilter(local_config))
     stack.postprocess.append(sqlparse.filters.SerializerUnicode())
 
     if sys.version_info[0] < 3 and isinstance(sql, unicode):
         sql = sql.encode("utf-8")
-        s = "\n".join(stack.run(sql))
-        return s.decode("utf-8")
+        formatted = "\n".join(stack.run(sql))
+        return formatted.decode("utf-8")
     else:
         return "\n".join(stack.run(sql))

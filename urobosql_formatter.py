@@ -14,18 +14,18 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         view = self.view
-        regions = view.sel()
-        settings = view.settings()
-        user_settings = sublime.load_settings(
+        self.settings = view.settings()
+        self.user_settings = sublime.load_settings(
             'sublime-uroborosql-formatter.sublime-settings')
+        regions = view.sel()
         # set syntax
-        if settings.get('syntax') == \
+        if self.settings.get('syntax') == \
                 "Packages/Text/Plain text.tmLanguage":
             view.set_syntax_file("Packages/SQL/SQL.tmLanguage")
         # setting
-        settings.set("tab_size", user_settings.get("uf_tab_size"))
-        settings.set("translate_tabs_to_spaces",
-                     user_settings.get("uf_translate_tabs_to_spaces"))
+        self.settings.set("tab_size", self.getval("uf_tab_size"))
+        self.settings.set("translate_tabs_to_spaces",
+                          self.getval("uf_translate_tabs_to_spaces"))
 
         # format selection
         if len(regions) > 1 or not regions[0].empty():
@@ -42,3 +42,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
 
     def format(self, raw_text):
         return sqlformatter.format_sql(raw_text, LocalConfig())
+
+    def getval(self, key):
+        val = self.user_settings.get(key)
+        return val if val != None else self.settings.get(key)

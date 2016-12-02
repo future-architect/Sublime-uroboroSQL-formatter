@@ -4,6 +4,7 @@ import itertools
 
 from sqlparse import sql
 from sqlparse import tokens as T
+import sys
 
 try:
     next
@@ -66,8 +67,11 @@ def _find_matching(idx, tlist, start_ttype, start_value, end_ttype, end_value):
 def _group_matching(tlist, start_ttype, start_value, end_ttype, end_value,
                     cls, include_semicolon=False, recurse=False):
 
+    #bugfix recurse
+    # [_group_matching(sgroup, start_ttype, start_value, end_ttype, end_value,
+    #                  cls, include_semicolon) for sgroup in tlist.get_sublists()
     [_group_matching(sgroup, start_ttype, start_value, end_ttype, end_value,
-                     cls, include_semicolon) for sgroup in tlist.get_sublists()
+                     cls, include_semicolon, recurse) for sgroup in tlist.get_sublists()
      if recurse]
     if isinstance(tlist, cls):
         idx = 1
@@ -348,15 +352,29 @@ def group_comments(tlist):
         token = tlist.token_next_by_type(idx, T.Comment)
 
 
+# bugfix Oracle10g merge and Oracle connect by
 def group_where(tlist):
+    def end_match(token):
+        stopwords = ('ORDER', 'GROUP', 'LIMIT', 'UNION', 'EXCEPT', 'HAVING',
+                     'WHEN', # for Oracle10g merge
+                     'CONNECT', # for Oracle connect by
+                     )
+        if token.match(T.Keyword, stopwords):
+            return True
+        if token.match(T.DML, ('DELETE')): # for Oracle10g merge
+            return True
+        if token.match(T.DML, ('START')): # for Oracle connect by
+            return True
+
+        return False
+
     [group_where(sgroup) for sgroup in tlist.get_sublists()
      if not isinstance(sgroup, sql.Where)]
     idx = 0
     token = tlist.token_next_match(idx, T.Keyword, 'WHERE')
-    stopwords = ('ORDER', 'GROUP', 'LIMIT', 'UNION', 'EXCEPT', 'HAVING')
     while token:
         tidx = tlist.token_index(token)
-        end = tlist.token_next_match(tidx + 1, T.Keyword, stopwords)
+        end = tlist.token_matching(tidx + 1, (end_match, ))
         if end is None:
             end = tlist._groupable_tokens[-1]
         else:
@@ -377,7 +395,12 @@ def group_aliased(tlist):
     while token:
         next_ = tlist.token_next(tlist.token_index(token))
         if next_ is not None and isinstance(next_, clss):
-            if not next_.value.upper().startswith('VARCHAR'):
+            # for jython str.upper()
+            # if not next_.value.upper().startswith('VARCHAR'):
+            text = next_.value
+            if sys.version_info[0] < 3 and isinstance(text, str):
+                text = text.decode('utf-8').upper().encode('utf-8')
+            if not text.startswith('VARCHAR'):
                 grp = tlist.tokens_between(token, next_)[1:]
                 token.tokens.extend(grp)
                 for t in grp:
@@ -442,8 +465,12 @@ def group(tlist):
             group_comments,
             group_brackets,
             group_functions,
-            group_where,
+            # bugfix Oracle10g merge
+            # group_where,
+            # group_case,
             group_case,
+            group_where,
+
             group_identifier,
             group_order,
             group_typecasts,

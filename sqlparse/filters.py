@@ -25,7 +25,21 @@ class _CaseFilter:
         if case is None:
             case = 'upper'
         assert case in ['lower', 'upper', 'capitalize']
-        self.convert = getattr(str, case)
+        # for jython str.upper()
+        # self.convert = getattr(str, case)
+        def get_convert():
+            import sys
+            if sys.version_info[0] < 3:
+                unicodecase = getattr(unicode, case)
+                def convert(s):
+                    if isinstance(s, str):
+                        return unicodecase(s.decode('utf-8')).encode('utf-8')
+                    else:
+                        return unicodecase(s)
+                return convert
+            else:
+                return getattr(str, case)
+        self.convert = get_convert()
 
     def process(self, stack, stream):
         for ttype, value in stream:
@@ -229,7 +243,8 @@ class StripCommentsFilter:
         self._process(stmt)
 
 
-class StripWhitespaceFilter:
+# for jython (object)
+class StripWhitespaceFilter(object):
 
     def _stripws(self, tlist):
         func_name = '_stripws_%s' % tlist.__class__.__name__.lower()
@@ -279,7 +294,8 @@ class StripWhitespaceFilter:
             stmt.tokens.pop(-1)
 
 
-class ReindentFilter:
+# for jython (object)
+class ReindentFilter(object):
 
     def __init__(self, width=2, char=' ', line_width=None):
         self.width = width

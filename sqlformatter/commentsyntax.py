@@ -3,7 +3,7 @@
 @author: ota
 '''
 import re
-from sqlparseforjython import tokens as T
+from sqlparse import tokens as T
 from sqlformatter.tokenutils import EngineComment
 from sqlformatter import tokenutils as tu
 
