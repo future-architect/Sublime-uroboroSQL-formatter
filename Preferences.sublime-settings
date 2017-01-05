@@ -1,4 +1,7 @@
 {
     "uf_tab_size": 4,
-    "uf_translate_tabs_to_spaces": true
+    "uf_translate_tabs_to_spaces": true,
+    "uf_uppercase": true,
+    "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
+    "uf_escape_sequence_u005c": false,
 }
