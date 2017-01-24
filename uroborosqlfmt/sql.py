@@ -3,7 +3,7 @@
 @author: ota
 '''
 from sqlparse import sql, tokens as T
-from sqlformatter import tokenutils as tu
+from uroborosqlfmt import tokenutils as tu
 
 class Having(sql.TokenList):
 

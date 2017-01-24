@@ -5,9 +5,9 @@ import sublime
 import sublime_plugin
 import threading
 sys.path.append(os.path.dirname(__file__))
-import sqlformatter
-from sqlformatter.config import LocalConfig
-from sqlformatter.commentsyntax import Doma2CommentSyntax
+import uroborosqlfmt
+from uroborosqlfmt.config import LocalConfig
+from uroborosqlfmt.commentsyntax import Doma2CommentSyntax
 
 
 class UroborosqlFormatCommand(sublime_plugin.TextCommand):
@@ -30,7 +30,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
 
         config = LocalConfig()
         config.set_uppercase(self.getval("uf_uppercase"))
-        sqlformatter.config.glb.escape_sequence_u005c = self.getval("uf_escape_sequence_u005c")
+        uroborosqlfmt.config.glb.escape_sequence_u005c = self.getval("uf_escapesequence_u005c")
         if str(self.getval("uf_comment_syntax")).upper() == "DOMA2":
             config.set_commentsyntax(Doma2CommentSyntax())
 
@@ -48,7 +48,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
             view.replace(edit, allregion, formatted_text)
 
     def format(self, raw_text, config):
-        return sqlformatter.format_sql(raw_text, config)
+        return uroborosqlfmt.format_sql(raw_text, config)
 
     def getval(self, key):
         val = self.user_settings.get(key)

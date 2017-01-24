@@ -4,8 +4,8 @@
 '''
 import re
 from sqlparse import tokens as T
-from sqlformatter.tokenutils import EngineComment
-from sqlformatter import tokenutils as tu
+from uroborosqlfmt.tokenutils import EngineComment
+from uroborosqlfmt import tokenutils as tu
 
 
 # pylint: disable=unused-argument
