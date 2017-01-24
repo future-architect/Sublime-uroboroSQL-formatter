@@ -7,9 +7,9 @@ import re
 import sys
 from sqlparse import sql, tokens as T, utils
 from sqlparse.filters import StripWhitespaceFilter, ReindentFilter
-from sqlformatter import tokenutils as tu, grouping
-from sqlformatter.exceptions import SqlFormatterException
-from sqlformatter.sql import Phrase
+from uroborosqlfmt import tokenutils as tu, grouping
+from uroborosqlfmt.exceptions import SqlFormatterException
+from uroborosqlfmt.sql import Phrase
 
 
 class StripWhitespaceAndToTabFilter(StripWhitespaceFilter):

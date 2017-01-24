@@ -1,6 +1,6 @@
 # coding:utf-8
 '''
-SQL Formatter.
+uroboroSQL formatter.
 @author: ota
 '''
 
@@ -13,7 +13,7 @@ from threading import Thread, Lock
 import sqlparse
 from sqlparse.lexer import Lexer
 from sqlparse import tokens as T, utils
-from sqlformatter import filters, config
+from uroborosqlfmt import filters, config
 
 LOCK = Lock()
 
@@ -22,7 +22,7 @@ def format_sql(sql, local_config):
     LOCK.acquire()
     try:
         if not config.glb.escape_sequence_u005c:
-            # Oracleの場合リテラルの取り方がにバグがあるので置き換える
+            # Oracle等の場合リテラルの取り方が違うので置き換える
             for i, data in enumerate(Lexer.tokens["root"]):
                 single = getattr(T.String, "Single")
                 if data[0] == r"'(''|\\\\|\\'|[^'])*'" :

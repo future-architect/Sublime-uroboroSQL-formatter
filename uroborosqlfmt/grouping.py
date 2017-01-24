@@ -4,11 +4,11 @@
 '''
 import collections
 from sqlparse import sql, tokens as T
-from sqlformatter import tokenutils as tu
-from sqlformatter.sql import WithinGroupFunctions, Phrase, AscDesc, OffsetFetch, Having, _BaseWords, OverFunctions, \
+from uroborosqlfmt import tokenutils as tu
+from uroborosqlfmt.sql import WithinGroupFunctions, Phrase, AscDesc, OffsetFetch, Having, _BaseWords, OverFunctions, \
     When, KeepFunctions, ForUpdate, WaitOrNowait, Union, Join, On, MergeWhen, MergeUpdateInsertClause, ConnectBy, \
     StartWith, With, LimitOffset, SpecialFunctionParameter, Calculation
-from sqlformatter.exceptions import SqlFormatterException
+from uroborosqlfmt.exceptions import SqlFormatterException
 
 def _remove_split_token(token, new_parent):
     parent = token.parent
@@ -180,6 +180,8 @@ def re_group_function(stmt):
         と記述するとSET句がFunction扱いになるのを修正する（バグ）
 
         INSERT INTO TABLE1(COL1,COL2,COL3)
+        及び
+        INSERT INTO SC.TABLE1(COL1,COL2,COL3)
         と記述するとTABLE1がFunction扱いになるのを修正する（バグ）
 
         ROW_NUMBER系のfunctionが何かおかしいことになるので調整
@@ -249,8 +251,31 @@ def re_group_function(stmt):
             return False
 
         prev = tu.token_prev_enable(parent, tlist)
-        if prev and tu.is_into_keyword(prev):
+        if not prev:
+            return False
+        # INSERT INTO TABLE1(COL1,COL2,COL3)を検証
+        if tu.is_into_keyword(prev):
             return True
+
+        return False
+
+    def _is_insert_into_table_function2(tlist, parent):
+        if not tu.within_insert_statement(stmt, tlist):
+            return False
+
+        prev = tu.token_prev_enable(parent, tlist)
+        if not prev:
+            return False
+        # INSERT INTO SC.TABLE1(COL1,COL2,COL3)を検証
+        if tu.is_dot(prev):
+            prev2 = tu.token_prev_enable(parent, prev)
+            if prev2 and tu.is_name_or_keyword(prev2):
+                parentparent = parent.parent
+                if parentparent:
+                    prev = tu.token_prev_enable(parentparent, parent)
+                    if prev and tu.is_into_keyword(prev):
+                        return True
+
         return False
 
     def _split_function(tlist, parent):
@@ -269,6 +294,16 @@ def re_group_function(stmt):
                 _adj_illegal_function(tlist, parent)
             elif _is_insert_into_table_function(tlist, parent):
                 _split_function(tlist, parent)
+            elif _is_insert_into_table_function2(tlist, parent):
+                ftoken = tu.token_next_enable(tlist)
+                dot = tu.token_prev_enable(parent, tlist)
+                schema_name = tu.token_prev_enable(parent, dot)
+                parentparent = parent.parent
+                _split_function(tlist, parent)
+                parent.group_tokens(sql.Identifier, parent.tokens_between(schema_name, ftoken))
+
+                if tu.is_identifier(parent):
+                    _remove_split_token(parent, parentparent)
             elif tu.equals_ignore_case(tu.token_next_enable(tlist).value, "UNION"): # UNIONがfunction扱いされている
                 _split_function(tlist, parent)
             elif tu.equals_ignore_case(tu.token_next_enable(tlist).value, "ON"): # ONがfunction扱いされている

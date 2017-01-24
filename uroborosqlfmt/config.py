@@ -2,12 +2,17 @@
 '''
 @author: ota
 '''
-from sqlformatter.commentsyntax import UroboroSqlCommentSyntax
+from uroborosqlfmt.commentsyntax import UroboroSqlCommentSyntax
 
 
 class _GlobalConfig(object):
     def __init__(self):
-        self.escape_sequence_u005c = False # バックスラッシュによるエスケープシーケンス
+        self.escape_sequence_u005c = False  # バックスラッシュによるエスケープシーケンス
+
+    def set_escape_sequence_u005c(self, escape_sequence):
+        self.escape_sequence_u005c = escape_sequence
+        return self
+
 
 class LocalConfig(object):
 
@@ -27,4 +32,4 @@ class LocalConfig(object):
 
 
 # グローバル設定
-glb = _GlobalConfig() # pylint: disable=invalid-name
+glb = _GlobalConfig()  # pylint: disable=invalid-name

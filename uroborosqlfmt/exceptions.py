@@ -17,6 +17,7 @@ class SqlFormatterException(Exception):
         self.tlist = self.__decode(tlist)
         self.e = ex
         self.trace = self.__decode(trace)
+        self.message = ex.message
 
     def __decode(self, text):
         text = str(text)
@@ -31,7 +32,7 @@ class SqlFormatterException(Exception):
         else:
             return text
 
-    def __str__(self, *args, **kwargs):
+    def __str__(self, *args):
         return self.message \
                 + "\ntoken:"  + self.__encode(self.tlist) \
                 + "\ntrace:"  + self.__encode(self.trace) \

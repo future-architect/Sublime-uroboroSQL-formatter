@@ -391,7 +391,7 @@ def is_with(token):
     """
         WITH句判定
     """
-    from sqlformatter.sql import With
+    from uroborosqlfmt.sql import With
     return isinstance(token, With)
 
 def is_into_keyword(token):
@@ -434,35 +434,35 @@ def is_when(token):
     """
         WHEN句判定
     """
-    from sqlformatter.sql import When
+    from uroborosqlfmt.sql import When
     return isinstance(token, When)
 
 def is_having(token):
     """
         HAVING句判定
     """
-    from sqlformatter.sql import Having
+    from uroborosqlfmt.sql import Having
     return isinstance(token, Having)
 
 def is_on(token):
     """
         ON句判定
     """
-    from sqlformatter.sql import On
+    from uroborosqlfmt.sql import On
     return isinstance(token, On)
 
 def is_connectby(token):
     """
         CONNECT BY句判定
     """
-    from sqlformatter.sql import ConnectBy
+    from uroborosqlfmt.sql import ConnectBy
     return isinstance(token, ConnectBy)
 
 def is_startwith(token):
     """
         START WITH句判定
     """
-    from sqlformatter.sql import StartWith
+    from uroborosqlfmt.sql import StartWith
     return isinstance(token, StartWith)
 
 def is_case(token):
@@ -475,42 +475,42 @@ def is_forupdate(token):
     """
         FOR UPDATE句判定
     """
-    from sqlformatter.sql import ForUpdate
+    from uroborosqlfmt.sql import ForUpdate
     return isinstance(token, ForUpdate)
 
 def is_waitornowait(token):
     """
         WAIT / NOWAIT句判定
     """
-    from sqlformatter.sql import WaitOrNowait
+    from uroborosqlfmt.sql import WaitOrNowait
     return isinstance(token, WaitOrNowait)
 
 def is_union(token):
     """
         UNION句判定
     """
-    from sqlformatter.sql import Union
+    from uroborosqlfmt.sql import Union
     return isinstance(token, Union)
 
 def is_join(token):
     """
         JOIN句判定
     """
-    from sqlformatter.sql import Join
+    from uroborosqlfmt.sql import Join
     return isinstance(token, Join)
 
 def is_mergewhen(token):
     """
         WHEN句判定
     """
-    from sqlformatter.sql import MergeWhen
+    from uroborosqlfmt.sql import MergeWhen
     return isinstance(token, MergeWhen)
 
 def is_mergeupdateinsertclause(token):
     """
          MERGEの内のDML判定
     """
-    from sqlformatter.sql import MergeUpdateInsertClause
+    from uroborosqlfmt.sql import MergeUpdateInsertClause
     return isinstance(token, MergeUpdateInsertClause)
 
 
@@ -538,6 +538,12 @@ def is_logical_operator_keyword(token):
     """
     return token.match(T.Keyword, ("AND", "OR"))
 
+def is_name_or_keyword(token):
+    """
+        name or keyword判定
+    """
+    return is_keyword(token) or token.ttype in T.Name
+
 def is_operator(token):
     """
         演算子判定
@@ -560,14 +566,14 @@ def is_phrase(token):
     """
         Phrase判定
     """
-    from sqlformatter.sql import Phrase
+    from uroborosqlfmt.sql import Phrase
     return isinstance(token, Phrase)
 
 def is_calculation(token):
     """
         演算判定
     """
-    from sqlformatter.sql import Calculation
+    from uroborosqlfmt.sql import Calculation
     return isinstance(token, Calculation)
 
 def is_calc_operator(token):
