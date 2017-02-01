@@ -121,9 +121,9 @@ def __decode(text):
         return text
 
 def _parse_args(test_args=None):
-    parser = argparse.ArgumentParser(description='uroboroSQL formatter API', prog='uroboroSQL formatter')
+    parser = argparse.ArgumentParser(description='uroboroSQL formatter API', prog='usqlfmt')
 
-    parser.add_argument('--version', '-v', action='version', version='%(prog)s 0.1.0')
+    parser.add_argument('-v', '--version', action='version', version='%(prog)s 0.1.0')
     parser.add_argument('input_path', \
         action='store', \
         type=str, \
@@ -132,14 +132,14 @@ def _parse_args(test_args=None):
     parser.add_argument('output_path', \
         action='store', \
         type=str, \
-        help='output path for formatted file.', \
+        help='output path for formatted file(s).', \
         )
     parser.add_argument('-m', '--mode', \
         action='store', \
         default='file', \
         type=str, \
         choices=['file', 'directory'], \
-        help='format process mode.', \
+        help='format target. default "file"', \
         )
 
     parser.add_argument('-N', '--nochange_case', \
