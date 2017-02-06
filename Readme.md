@@ -58,7 +58,10 @@ Settings
 ```json
 {
     "uf_tab_size": 4,
-    "uf_translate_tabs_to_spaces": false
+    "uf_translate_tabs_to_spaces": true,
+    "uf_uppercase": true,
+    "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
+    "uf_escapesequence_u005c": false,
 }
 ```
 
@@ -66,6 +69,14 @@ Settings
 	-	Specify the tab size of the indent after formatting. We recommend 4.
 -	uf_translate_tabs_to_spaces
 	-	Specify whether the indent after formatting is tab or space. It becomes a space by setting it to true.
+- uf_uppercase
+  - If you want to convert a reserved word and identifier to uppercase specifies true.
+- uf_comment_syntax
+  - It specifies the comment syntax format.
+  - You can specify the "uroboroSQL" or "doma2".
+    - In the case of normal SQL, you can specify either.
+- uf_escapesequence_u005c
+  - If you have specified the escape sequence with a backslash in the SQL to specify the true.
 
 License
 -------
@@ -74,4 +85,4 @@ License
 
 ---
 
-Copyright 2016 by Future Corporation.
+Copyright 2016-2017 by Future Corporation.

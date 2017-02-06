@@ -60,7 +60,10 @@ Settings
 ```json
 {
     "uf_tab_size": 4,
-    "uf_translate_tabs_to_spaces": false
+    "uf_translate_tabs_to_spaces": true,
+    "uf_uppercase": true,
+    "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
+    "uf_escapesequence_u005c": false,
 }
 ```
 
@@ -68,6 +71,14 @@ Settings
 	-	フォーマット後のインデントのタブサイズを指定します。4つを推奨します。
 -	uf_translate_tabs_to_spaces
 	-	フォーマット後のインデントをタブにするかスペースにするかを指定します。trueにすることでスペースになります。
+- uf_uppercase
+  - 予約語と識別子を大文字に変換する場合はtrueを指定します。
+- uf_comment_syntax
+  - コメントのシンタックス形式を指定します。
+  - 「uroboroSQL」または「doma2」の指定が可能です。
+    - 通常のSQLの場合は、どちらを指定してもかまいません。
+- uf_escapesequence_u005c
+  - SQL内でエスケープシーケンスをバックスラッシュで指定している場合にtrueを指定します。
 
 License
 -------
@@ -76,4 +87,4 @@ License
 
 ---
 
-Copyright 2016 by Future Corporation.
+Copyright 2016-2017 by Future Corporation.
