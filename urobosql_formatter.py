@@ -34,22 +34,38 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
         if str(self.getval("uf_comment_syntax")).upper() == "DOMA2":
             config.set_commentsyntax(Doma2CommentSyntax())
 
+        raw_text = ""
+        region = None
+
         # format selection
         if len(regions) > 1 or not regions[0].empty():
             for region in view.sel():
                 if not region.empty():
                     raw_text = view.substr(region)
-                    formatted_text = self.format(raw_text, config)
-                    view.replace(edit, region, formatted_text)
         else:  # format all
-            allregion = sublime.Region(0, view.size())
-            raw_text = view.substr(allregion)
-            formatted_text = self.format(raw_text, config)
-            view.replace(edit, allregion, formatted_text)
+            region = sublime.Region(0, view.size())
+            raw_text = view.substr(region)
 
-    def format(self, raw_text, config):
-        return uroborosqlfmt.format_sql(raw_text, config)
+        threading.Thread(target=self.run_format, args=(edit, raw_text, region, config, )).start()
+
+    def run_format(self, edit, raw_text, region, config):
+        formatted_text = uroborosqlfmt.format_sql(raw_text, config)
+        self.view.run_command("uroborosql_format_view", {"formatted_text": formatted_text})
 
     def getval(self, key):
         val = self.user_settings.get(key)
         return val if val != None else self.settings.get(key)
+
+
+class UroborosqlFormatViewCommand(sublime_plugin.TextCommand):
+    def run(self, edit, **args):
+        regions = self.view.sel()
+        # format selection
+        if len(regions) > 1 or not regions[0].empty():
+            for region in self.view.sel():
+                if not region.empty():
+                    break
+        else:  # format all
+            region = sublime.Region(0, self.view.size())
+
+        self.view.replace(edit, region, args["formatted_text"])
