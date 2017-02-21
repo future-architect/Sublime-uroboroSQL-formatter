@@ -1,0 +1,3 @@
+[
+  { "keys": ["ctrl+super+f"], "command": "uroborosql_format" }
+]

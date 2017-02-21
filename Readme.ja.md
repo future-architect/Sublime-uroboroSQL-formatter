@@ -53,6 +53,7 @@ How to Use
 -	Editメニューから「SQL Format」を選択
 -	エディタ上のコンテキストメニューから「SQL Format」を選択
 -	コマンドPaletteから「uroboroSQL Formatter: Format SQL」を選択
+-	ctrl + cmd + f on OS X, or ctrl + alt + f on Windows
 
 Settings
 --------
