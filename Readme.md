@@ -51,6 +51,7 @@ How to Use
 -	Select "SQL Format" from the Edit menu
 -	Select "SQL Format" from the context menu on the editor
 -	Select "uroboroSQL Formatter: Format SQL" from the command Palette
+-	ctrl + cmd + f on OS X, or ctrl + alt + f on Windows
 
 Settings
 --------
