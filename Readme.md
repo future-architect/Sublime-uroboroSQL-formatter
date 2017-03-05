@@ -92,4 +92,4 @@ License
 
 ---
 
-Copyright 2016-2017 by Future Corporation.
+Copyright 2017 by Future Architect.
