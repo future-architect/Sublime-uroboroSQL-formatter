@@ -65,6 +65,8 @@ Settings
     "uf_uppercase": true,
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
+    "uf_save_on_format": true,
+    "uf_save_on_format_extensions": [".sql"]
 }
 ```
 
@@ -80,6 +82,11 @@ Settings
     - 通常のSQLの場合は、どちらを指定してもかまいません。
 - uf_escapesequence_u005c
   - SQL内でエスケープシーケンスをバックスラッシュで指定している場合にtrueを指定します。
+- uf_save_on_format
+  - ファイル保存時に自動的にフォーマットする場合にtrueを指定します。
+- uf_save_on_format_extensions
+  - フォーマットするファイルの拡張子をリストで指定します。
+
 
 License
 -------

@@ -63,6 +63,8 @@ Settings
     "uf_uppercase": true,
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
+    "uf_save_on_format": true,
+    "uf_save_on_format_extensions": [".sql"]
 }
 ```
 
@@ -78,6 +80,10 @@ Settings
     - In the case of normal SQL, you can specify either.
 - uf_escapesequence_u005c
   - If you have specified the escape sequence with a backslash in the SQL to specify the true.
+- uf_save_on_format
+  - Specify true when formatting automatically when saving files.
+- uf_save_on_format_extensions
+  - Specify the extension of the file to be formatted in a list.
 
 License
 -------

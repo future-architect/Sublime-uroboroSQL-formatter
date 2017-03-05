@@ -4,4 +4,6 @@
     "uf_uppercase": true,
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
+    "uf_save_on_format": false,
+    "uf_save_on_format_extensions": ["sql"]
 }

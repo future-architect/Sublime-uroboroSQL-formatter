@@ -14,7 +14,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
 
     """SQL format command class"""
 
-    def run(self, edit):
+    def run(self, edit, sync=False):
         view = self.view
         view.window().status_message('formatting...')
         self.settings = view.settings()
@@ -47,8 +47,11 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
             region = sublime.Region(0, view.size())
             raw_text = view.substr(region)
 
-        threading.Thread(target=self.run_format, args=(
-            edit, raw_text, config, region.a, region.b)).start()
+        if sync:
+            self.run_format(edit, raw_text, config, region.a, region.b)
+        else:
+            threading.Thread(target=self.run_format, args=(
+                edit, raw_text, config, region.a, region.b)).start()
 
     def run_format(self, edit, raw_text, config, region_a, region_b):
         formatted_text = uroborosqlfmt.format_sql(raw_text, config)
@@ -71,3 +74,23 @@ class UroborosqlFormatReplaceCommand(sublime_plugin.TextCommand):
         region = sublime.Region(args["region_a"], args["region_b"])
         self.view.replace(edit, region, args["formatted_text"])
         self.view.window().status_message('formatting... complete!!')
+
+
+class UroborosqlFormatListener(sublime_plugin.EventListener):
+
+    """Event listner"""
+
+    def on_pre_save(self, view):
+        self.settings = view.settings()
+        self.user_settings = sublime.load_settings(
+            'sublime-uroborosql-formatter.sublime-settings')
+        if self.getval("uf_save_on_format") != True:
+            return
+
+        filepath = view.file_name()
+        if filepath.endswith(tuple(self.getval("uf_save_on_format_extensions"))):
+            view.run_command("uroborosql_format", {"sync": True})
+
+    def getval(self, key):
+        val = self.user_settings.get(key)
+        return val if val != None else self.settings.get(key)
