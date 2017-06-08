@@ -31,6 +31,12 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
 
         config = LocalConfig()
         config.set_uppercase(self.getval("uf_uppercase"))
+        # set reserved words
+        input_reserved_words_list = self.getval("uf_reserved_words")
+        if input_reserved_words_list != "noinput":
+            reserved_words = input_reserved_words_list.split(",").lower()
+            config.set_input_reserved_words(reserved_words)
+
         uroborosqlfmt.config.glb.escape_sequence_u005c = self.getval(
             "uf_escapesequence_u005c")
         if str(self.getval("uf_comment_syntax")).upper() == "DOMA2":

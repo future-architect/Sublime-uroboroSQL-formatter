@@ -61,6 +61,7 @@ Settings
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
     "uf_uppercase": true,
+    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE",
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
     "uf_save_on_format": true,
@@ -74,6 +75,9 @@ Settings
 	-	Specify whether the indent after formatting is tab or space. It becomes a space by setting it to true.
 - uf_uppercase
   - If you want to convert a reserved word and identifier to uppercase specifies true.
+- uf_reserved_words
+  - If you want to convert only reserved words to uppercase, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in both uppercase and lowercase.)   
+  If you do not use this option, plase input "noinput" in this option.
 - uf_comment_syntax
   - It specifies the comment syntax format.
   - You can specify the "uroboroSQL" or "doma2".
