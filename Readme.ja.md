@@ -81,8 +81,7 @@ Settings
 - uf_reserved_case
   - 予約語を指定のケース（大文字、小文字、文頭大文字）に変換する時に使用する。
 - uf_reserved_words
-  - 予約語のみを大文字に変換したい場合は、「uf_uppercase」を”true”と指定するとともに、当項目に予約語のリストをカンマ区切りで指定します。（予約語の入力は大文字・小文字どちらでも可）   
-  当オプションを使用しない場合は、"noinput"と指定してください。
+  - 予約語のみをケース変換したい場合は、「uf_reserved_case」に指定のケース（upper, lower or capitalize）を設定するとともに、当項目に予約語のリストをカンマ区切りで指定します。
 - uf_comment_syntax
   - コメントのシンタックス形式を指定します。
   - 「uroboroSQL」または「doma2」の指定が可能です。

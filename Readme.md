@@ -79,8 +79,7 @@ Settings
 - uf_reserved_case
   - If you want to convert reserved words to a specific case, set "upper", "lower" or "capitalize".
 - uf_reserved_words
-  - If you want to convert only reserved words to uppercase, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in both uppercase and lowercase.)   
-  If you do not use this option, plase input "noinput" in this option.
+  - If you want to convert only reserved words to a specific case, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in any case.)
 - uf_comment_syntax
   - It specifies the comment syntax format.
   - You can specify the "uroboroSQL" or "doma2".
