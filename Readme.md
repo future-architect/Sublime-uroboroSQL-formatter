@@ -10,32 +10,32 @@ for Japanese, [Readme.ja.md](Readme.ja.md)
 #### In case of general formatter
 
 ```sql
-SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- メーカーコード
+SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- maker code
 ,
-       MI.BRAND_CD AS ITEM_BRAND_CD -- ブランドコード
+       MI.BRAND_CD AS ITEM_BRAND_CD -- brand code
 ,
-       MI.ITEM_CD AS ITEM_CD -- 商品コード
+       MI.ITEM_CD AS ITEM_CD -- item code
 ,
-       MI.CATEGORY AS ITEM_CATEGORY -- 商品カテゴリ
-FROM M_ITEM MI -- 商品マスタ
+       MI.CATEGORY AS ITEM_CATEGORY -- item category
+FROM M_ITEM MI -- item master
 
 WHERE 1 = 1
-  AND MI.ARRIVAL_DATE = '2016-12-01' -- 入荷日
+  AND MI.ARRIVAL_DATE = '2016-12-01' -- arrival date
 ```
 
 #### In case of uroboroSQL Formatter
 
 ```sql
 SELECT
-    MI.MAKER_CD AS  ITEM_MAKER_CD   -- メーカーコード
-,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- ブランドコード
-,   MI.ITEM_CD  AS  ITEM_CD         -- 商品コード
-,   MI.CATEGORY AS  ITEM_CATEGORY   -- 商品カテゴリ
+    MI.MAKER_CD AS  ITEM_MAKER_CD   -- maker code
+,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- brand code
+,   MI.ITEM_CD  AS  ITEM_CD         -- item code
+,   MI.CATEGORY AS  ITEM_CATEGORY   -- item category
 FROM
-    M_ITEM  MI  -- 商品マスタ
+    M_ITEM  MI  -- item master
 WHERE
     1               =   1
-AND MI.ARRIVAL_DATE =   '2016-12-01'    -- 入荷日
+AND MI.ARRIVAL_DATE =   '2016-12-01'    -- arrival date
 
 ```
 
@@ -60,7 +60,8 @@ Settings
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_uppercase": true,
+    "uf_case": "lower", // "upper" or "lower" or "capitalize"
+    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize"
     "uf_reserved_words":"SELECT, FROM, WHERE, CREATE",
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
@@ -73,8 +74,10 @@ Settings
 	-	Specify the tab size of the indent after formatting. We recommend 4.
 -	uf_translate_tabs_to_spaces
 	-	Specify whether the indent after formatting is tab or space. It becomes a space by setting it to true.
-- uf_uppercase
-  - If you want to convert a reserved word and identifier to uppercase specifies true.
+- uf_case
+  - If you want to convert all words to a specific case, set "upper", "lower" or "capitalize".
+- uf_reserved_case
+  - If you want to convert reserved words to a specific case, set "upper", "lower" or "capitalize".
 - uf_reserved_words
   - If you want to convert only reserved words to uppercase, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in both uppercase and lowercase.)   
   If you do not use this option, plase input "noinput" in this option.

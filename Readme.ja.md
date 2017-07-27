@@ -62,7 +62,8 @@ Settings
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_uppercase": true,
+    "uf_case": "lower", // "upper" or "lower" or "capitalize"
+    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize"
     "uf_reserved_words":"SELECT, FROM, WHERE, CREATE",
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
@@ -75,8 +76,10 @@ Settings
 	-	フォーマット後のインデントのタブサイズを指定します。4つを推奨します。
 -	uf_translate_tabs_to_spaces
 	-	フォーマット後のインデントをタブにするかスペースにするかを指定します。trueにすることでスペースになります。
-- uf_uppercase
-  - 予約語と識別子を大文字に変換する場合はtrueを指定します。
+- uf_case
+  - 全ての文字（予約語と識別子等全て）を指定のケース（大文字、小文字、文頭大文字）に変換する時に使用する。
+- uf_reserved_case
+  - 予約語を指定のケース（大文字、小文字、文頭大文字）に変換する時に使用する。
 - uf_reserved_words
   - 予約語のみを大文字に変換したい場合は、「uf_uppercase」を”true”と指定するとともに、当項目に予約語のリストをカンマ区切りで指定します。（予約語の入力は大文字・小文字どちらでも可）   
   当オプションを使用しない場合は、"noinput"と指定してください。
