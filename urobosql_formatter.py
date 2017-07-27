@@ -30,12 +30,12 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
                           self.getval("uf_translate_tabs_to_spaces"))
 
         config = LocalConfig()
-        config.set_uppercase(self.getval("uf_uppercase"))
+        config.set_case(self.getval("uf_case"))
+        config.set_reserved_case(self.getval("uf_reserved_case"))
         # set reserved words
         input_reserved_words_list = self.getval("uf_reserved_words")
-        if input_reserved_words_list != "noinput":
-            reserved_words = input_reserved_words_list.split(",").lower()
-            config.set_input_reserved_words(reserved_words)
+        reserved_words = input_reserved_words_list.split(",").lower()
+        config.set_input_reserved_words(reserved_words)
 
         uroborosqlfmt.config.glb.escape_sequence_u005c = self.getval(
             "uf_escapesequence_u005c")

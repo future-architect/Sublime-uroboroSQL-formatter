@@ -10,6 +10,7 @@ from sqlparse.filters import StripWhitespaceFilter, ReindentFilter
 from uroborosqlfmt import tokenutils as tu, grouping
 from uroborosqlfmt.exceptions import SqlFormatterException
 from uroborosqlfmt.sql import Phrase
+from numpy.core.defchararray import upper
 
 
 class StripWhitespaceAndToTabFilter(StripWhitespaceFilter):
@@ -1795,17 +1796,23 @@ with the reserved words.
 class ReservedWordCaseFilter():
     ttype = None
 
-    def __init__(self, local_config, case=None):
-        self.local_config = local_config
-        if case is None:
-            case = 'upper'
-        assert case in ['lower', 'upper', 'capitalize']
+    def __init__(self, local_config):
+        if local_config.case == 'upper':
+            self.input_reserved_words = [word.upper() for word in local_config.input_reserved_words]
+        elif local_config.case == 'lower':
+            self.input_reserved_words = [word.lower() for word in local_config.input_reserved_words]
+        elif local_config.case == 'capitalize':
+            self.input_reserved_words = [word.capitalize() for word in local_config.input_reserved_words]
+
+        if local_config.reserved_case is None:
+            local_config.set_reserved_case('upper')
+        assert local_config.reserved_case in ['lower', 'upper', 'capitalize']
         # for jython str.upper()
         # self.convert = getattr(str, case)
         def get_convert():
             import sys
             if sys.version_info[0] < 3:
-                unicodecase = getattr(unicode, case)
+                unicodecase = getattr(unicode, local_config.reserved_case)
                 def convert(s):
                     if isinstance(s, str):
                         return unicodecase(s.decode('utf-8')).encode('utf-8')
@@ -1813,11 +1820,11 @@ class ReservedWordCaseFilter():
                         return unicodecase(s)
                 return convert
             else:
-                return getattr(str, case)
+                return getattr(str, local_config.reserved_case)
         self.convert = get_convert()
 
     def process(self, stack, stream):
         for ttype, value in stream:
-            if value in self.local_config.input_reserved_words:
+            if value in self.input_reserved_words:
                 value = self.convert(value)
             yield ttype, value

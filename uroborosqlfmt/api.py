@@ -141,10 +141,17 @@ def _parse_args(test_args=None):
         choices=['file', 'directory'], \
         help='format target. default "file"', \
         )
-
-    parser.add_argument('-N', '--nochange_case', \
-        action='store_true', \
-        help='UPPERCASE off.', \
+    parser.add_argument('-a', '--case', \
+        action='store', \
+        default=None, \
+        type=str, \
+        choices=['upper', 'lower', 'capitalize'], \
+        )
+    parser.add_argument('-e', '--reserved_case', \
+        action='store', \
+        default=None, \
+        type=str, \
+        choices=['upper', 'lower', 'capitalize'], \
         )
     parser.add_argument('-B', '--escapesequence_u005c', \
         action='store_true', \
@@ -177,7 +184,8 @@ def __execute():
     args = _parse_args()
 
     mode = args.mode
-    nochange_case = args.nochange_case
+    case = args.case
+    reserved_case = args.reserved_case
     escapesequence_u005c = args.escapesequence_u005c
     comment_syntax = args.comment_syntax
     input_path = args.input_path
@@ -185,7 +193,8 @@ def __execute():
     reserved_words_file_path = args.reserved_words_file_path
     local_config = LocalConfig()
 
-    set_uppercase(local_config, not nochange_case)
+    set_case(local_config, case)
+    set_reserved_case(local_config, reserved_case)
     set_escapesequence_u005c(escapesequence_u005c)
     set_comment_syntax(local_config, comment_syntax)
     set_reserved_words(local_config, reserved_words_file_path)
@@ -207,8 +216,18 @@ def __execute():
     print("=====           End          =====")
 
 
-def set_uppercase(local_config, uppercase):
-    local_config.set_uppercase(uppercase)
+def set_case(local_config, case):
+    local_config.set_case(case)
+
+
+def set_reserved_case(local_config, reserved_case):
+    if local_config.case == None and local_config.reserved_case != None:
+        print ("You have to set [case(-a)]option, "\
+               "when you set [reserved_case(-e)]option.\n" \
+               "The applocation does not accept the reserved_case option individually.")
+        sys.exit("Application quitting...")
+    else:
+        local_config.set_reserved_case(reserved_case)
 
 
 def set_escapesequence_u005c(escapesequence_u005c):
