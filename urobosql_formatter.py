@@ -34,7 +34,7 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
         config.set_reserved_case(self.getval("uf_reserved_case"))
         # set reserved words
         input_reserved_words_list = self.getval("uf_reserved_words")
-        reserved_words = input_reserved_words_list.split(",").lower()
+        reserved_words = input_reserved_words_list.split(",")
         config.set_input_reserved_words(reserved_words)
 
         uroborosqlfmt.config.glb.escape_sequence_u005c = self.getval(

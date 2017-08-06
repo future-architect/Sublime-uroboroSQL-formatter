@@ -10,7 +10,6 @@ from sqlparse.filters import StripWhitespaceFilter, ReindentFilter
 from uroborosqlfmt import tokenutils as tu, grouping
 from uroborosqlfmt.exceptions import SqlFormatterException
 from uroborosqlfmt.sql import Phrase
-from numpy.core.defchararray import upper
 
 
 class StripWhitespaceAndToTabFilter(StripWhitespaceFilter):
