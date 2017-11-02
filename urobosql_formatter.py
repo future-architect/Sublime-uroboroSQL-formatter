@@ -24,14 +24,20 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
         if self.settings.get('syntax') == \
                 "Packages/Text/Plain text.tmLanguage":
             view.set_syntax_file("Packages/SQL/SQL.tmLanguage")
-        # setting
+        # settings
         self.settings.set("tab_size", self.getval("uf_tab_size"))
         self.settings.set("translate_tabs_to_spaces",
                           self.getval("uf_translate_tabs_to_spaces"))
-
         config = LocalConfig()
-        config.set_case(self.getval("uf_case"))
-        config.set_reserved_case(self.getval("uf_reserved_case"))
+        if self.getval("uf_case") == 'nochange':
+            config.set_case(None)
+        else:
+            config.set_case(self.getval("uf_case"))
+
+        if self.getval("uf_reserved_case") == 'nochange':
+            config.set_reserved_case(None)
+        else:
+            config.set_reserved_case(self.getval("uf_reserved_case"))
         # set reserved words
         input_reserved_words_list = self.getval("uf_reserved_words")
         reserved_words = input_reserved_words_list.split(",")
