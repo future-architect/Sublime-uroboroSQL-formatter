@@ -60,9 +60,9 @@ Settings
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_case": "lower", // "upper" or "lower" or "capitalize"
-    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize"
-    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE",
+    "uf_case": "lower", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE" // Put commas to separate reserved words
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
     "uf_save_on_format": true,
@@ -74,22 +74,22 @@ Settings
 	-	Specify the tab size of the indent after formatting. We recommend 4.
 -	uf_translate_tabs_to_spaces
 	-	Specify whether the indent after formatting is tab or space. It becomes a space by setting it to true.
-- uf_case
-  - If you want to convert all words to a specific case, set "upper", "lower" or "capitalize".
-- uf_reserved_case
-  - If you want to convert reserved words to a specific case, set "upper", "lower" or "capitalize".
-- uf_reserved_words
-  - If you want to convert only reserved words to a specific case, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in any case.)
-- uf_comment_syntax
-  - It specifies the comment syntax format.
-  - You can specify the "uroboroSQL" or "doma2".
-    - In the case of normal SQL, you can specify either.
-- uf_escapesequence_u005c
-  - If you have specified the escape sequence with a backslash in the SQL to specify the true.
-- uf_save_on_format
-  - Specify true when formatting automatically when saving files.
-- uf_save_on_format_extensions
-  - Specify the extension of the file to be formatted in a list.
+-	uf_case
+	-	If you want to convert all words to a specific case, set "upper", "lower", "capitalize". If the "nochange" option is selected, the word cases will not be changed from the original.
+-	uf_reserved_case
+	-	If you want to convert reserved words to a specific case, set "upper", "lower" or "capitalize". If the "nochange" option is selected, it will not change the cases of resered words and they will be changed based on the "uf_case" setting.
+-	uf_reserved_words
+	-	If you want to convert only reserved words to a specific case, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in any case.)
+-	uf_comment_syntax
+	-	It specifies the comment syntax format.
+	-	You can specify the "uroboroSQL" or "doma2".
+		-	In the case of normal SQL, you can specify either.
+-	uf_escapesequence_u005c
+	-	If you have specified the escape sequence with a backslash in the SQL to specify the true.
+-	uf_save_on_format
+	-	Specify true when formatting automatically when saving files.
+-	uf_save_on_format_extensions
+	-	Specify the extension of the file to be formatted in a list.
 
 License
 -------
