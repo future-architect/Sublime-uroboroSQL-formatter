@@ -1,7 +1,7 @@
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_case": "lower", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
     // You have to set [uf_case]option, 
     // when you set [uf_reserved_case]option below.
     // The applocation does not accept the reserved_case option individually.
