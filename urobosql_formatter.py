@@ -30,6 +30,16 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
                           self.getval("uf_translate_tabs_to_spaces"))
         config = LocalConfig()
 
+        if self.getval("uf_case") == 'nochange':
+            config.set_case(None)
+        else:
+            config.set_case(self.getval("uf_case"))
+
+        if self.getval("uf_reserved_case") == 'nochange':
+            config.set_reserved_case(None)
+        else:
+            config.set_reserved_case(self.getval("uf_reserved_case"))
+
         # ↓for backward compatibility↓
         if self.user_settings.get("uf_uppercase") == False \
                 and self.user_settings.get("uf_case") == None:
@@ -40,17 +50,8 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
             config.set_reserved_case(None)
         # ↑for backward compatibility ↑
 
-        if self.getval("uf_case") == 'nochange':
-            config.set_case(None)
-        else:
-            config.set_case(self.getval("uf_case"))
-
-        if self.getval("uf_reserved_case") == 'nochange':
-            config.set_reserved_case(None)
-        else:
-            config.set_reserved_case(self.getval("uf_reserved_case"))
         # set reserved words
-        if self.user_settings.get("uf_reserved_words") != None:
+        if self.getval("uf_reserved_words") != None:
             input_reserved_words_list = self.getval("uf_reserved_words")
             reserved_words = input_reserved_words_list.split(",")
             config.set_input_reserved_words(reserved_words)
