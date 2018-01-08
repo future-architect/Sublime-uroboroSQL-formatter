@@ -24,13 +24,38 @@ class UroborosqlFormatCommand(sublime_plugin.TextCommand):
         if self.settings.get('syntax') == \
                 "Packages/Text/Plain text.tmLanguage":
             view.set_syntax_file("Packages/SQL/SQL.tmLanguage")
-        # setting
+        # settings
         self.settings.set("tab_size", self.getval("uf_tab_size"))
         self.settings.set("translate_tabs_to_spaces",
                           self.getval("uf_translate_tabs_to_spaces"))
-
         config = LocalConfig()
-        config.set_uppercase(self.getval("uf_uppercase"))
+
+        if self.getval("uf_case") == 'nochange':
+            config.set_case(None)
+        else:
+            config.set_case(self.getval("uf_case"))
+
+        if self.getval("uf_reserved_case") == 'nochange':
+            config.set_reserved_case(None)
+        else:
+            config.set_reserved_case(self.getval("uf_reserved_case"))
+
+        # ↓for backward compatibility↓
+        if self.user_settings.get("uf_uppercase") == False \
+                and self.user_settings.get("uf_case") == None:
+            config.set_case(None)
+
+        if self.user_settings.get("uf_uppercase") == False \
+                and self.user_settings.get("uf_reserved_case") == None:
+            config.set_reserved_case(None)
+        # ↑for backward compatibility ↑
+
+        # set reserved words
+        if self.getval("uf_reserved_words") != None:
+            input_reserved_words_list = self.getval("uf_reserved_words")
+            reserved_words = input_reserved_words_list.split(",")
+            config.set_input_reserved_words(reserved_words)
+
         uroborosqlfmt.config.glb.escape_sequence_u005c = self.getval(
             "uf_escapesequence_u005c")
         if str(self.getval("uf_comment_syntax")).upper() == "DOMA2":

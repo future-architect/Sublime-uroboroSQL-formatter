@@ -1,7 +1,9 @@
-uroboroSQL Formatter
+Sublime uroboroSQL Formatter
 ====================
 
-uroboroSQL Formatterは、エンタープライズシステムで用いられることの多い、  
+[![Package Control](https://img.shields.io/packagecontrol/dt/uroboroSQL%20Formatter.svg)](https://packagecontrol.io/packages/uroboroSQL%20Formatter)
+
+Sublime uroboroSQL Formatterは、エンタープライズシステムで用いられることの多い、  
 非常に長いSQL(1K step以上)でも見やすく保守性の高いスタイルへフォーマットするための  
 Sublime Text 3のプラグインです。
 
@@ -25,7 +27,7 @@ WHERE 1 = 1
   AND MI.ARRIVAL_DATE = '2016-12-01' -- 入荷日
 ```
 
-#### uroboroSQL Formatterの場合
+#### Sublime uroboroSQL Formatterの場合
 
 ```sql
 SELECT
@@ -62,7 +64,9 @@ Settings
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_uppercase": true,
+    "uf_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE" // Put commas to separate reserved words
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
     "uf_save_on_format": true,
@@ -74,18 +78,22 @@ Settings
 	-	フォーマット後のインデントのタブサイズを指定します。4つを推奨します。
 -	uf_translate_tabs_to_spaces
 	-	フォーマット後のインデントをタブにするかスペースにするかを指定します。trueにすることでスペースになります。
-- uf_uppercase
-  - 予約語と識別子を大文字に変換する場合はtrueを指定します。
-- uf_comment_syntax
-  - コメントのシンタックス形式を指定します。
-  - 「uroboroSQL」または「doma2」の指定が可能です。
-    - 通常のSQLの場合は、どちらを指定してもかまいません。
-- uf_escapesequence_u005c
-  - SQL内でエスケープシーケンスをバックスラッシュで指定している場合にtrueを指定します。
-- uf_save_on_format
-  - ファイル保存時に自動的にフォーマットする場合にtrueを指定します。
-- uf_save_on_format_extensions
-  - フォーマットするファイルの拡張子をリストで指定します。
+-	uf_case
+	-	全ての文字（予約語と識別子等全て）を指定のケース（大文字、小文字、文頭大文字、変換しない）に変換する時に使用する。
+-	uf_reserved_case
+	-	予約語を指定のケース（大文字、小文字、文頭大文字）に変換する時に使用する。なお、"nochange"オプションを指定した場合は予約語に限ったケース変換はせず、全てのケースを「uf_case」に従って変換する。
+-	uf_reserved_words
+	-	予約語のみをケース変換したい場合は、「uf_reserved_case」に指定のケース（upper, lower, capitalize or nochange）を設定するとともに、当項目に予約語のリストをカンマ区切りで指定します。
+-	uf_comment_syntax
+	-	コメントのシンタックス形式を指定します。
+	-	「uroboroSQL」または「doma2」の指定が可能です。
+		-	通常のSQLの場合は、どちらを指定してもかまいません。
+-	uf_escapesequence_u005c
+	-	SQL内でエスケープシーケンスをバックスラッシュで指定している場合にtrueを指定します。
+-	uf_save_on_format
+	-	ファイル保存時に自動的にフォーマットする場合にtrueを指定します。
+-	uf_save_on_format_extensions
+	-	フォーマットするファイルの拡張子をリストで指定します。
 
 
 License
@@ -95,4 +103,4 @@ License
 
 ---
 
-Copyright 2017 by Future Architect.
+Copyright 2018 by Future Architect.

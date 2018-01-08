@@ -77,9 +77,12 @@ def format_sql(sql, local_config = config.LocalConfig()):
     stack = sqlparse.engine.FilterStack()
     stack.enable_grouping()
 
-    if local_config.uppercase:
-        stack.preprocess.append(sqlparse.filters.KeywordCaseFilter())
-        stack.preprocess.append(sqlparse.filters.IdentifierCaseFilter())
+    if local_config.case != None:
+        stack.preprocess.append(sqlparse.filters.KeywordCaseFilter(local_config.case))
+        stack.preprocess.append(sqlparse.filters.IdentifierCaseFilter(local_config.case))
+
+    if local_config.reserved_case != None:
+        stack.preprocess.append(filters.ReservedWordCaseFilter(local_config))
 
     stack.stmtprocess.append(filters.GroupFilter())
     stack.stmtprocess.append(filters.LineDescriptionLineCommentFilter(local_config))

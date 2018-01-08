@@ -1,7 +1,9 @@
-uroboroSQL Formatter
+Sublime uroboroSQL Formatter
 ====================
 
-UroboroSQL Formatter is often used in enterprise systems, For formatting to a highly maintainable style even for very long SQL (1 K step or more) It is a plug-in of Sublime Text 3.
+[![Package Control](https://img.shields.io/packagecontrol/dt/uroboroSQL%20Formatter.svg)](https://packagecontrol.io/packages/uroboroSQL%20Formatter)
+
+Sublime uroboroSQL Formatter is often used in enterprise systems, For formatting to a highly maintainable style even for very long SQL (1 K step or more) It is a plug-in of Sublime Text 3.
 
 In particular, in countries where English is not their mother tongue, such as Japan, comments may be included in SELECT clauses. In that case, we will align the vertical position of the AS clause and the comment, pursuing the viewability which can be said as artistic anymore, This was developed to realize this automatically.
 
@@ -10,32 +12,32 @@ for Japanese, [Readme.ja.md](Readme.ja.md)
 #### In case of general formatter
 
 ```sql
-SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- メーカーコード
+SELECT MI.MAKER_CD AS ITEM_MAKER_CD -- maker code
 ,
-       MI.BRAND_CD AS ITEM_BRAND_CD -- ブランドコード
+       MI.BRAND_CD AS ITEM_BRAND_CD -- brand code
 ,
-       MI.ITEM_CD AS ITEM_CD -- 商品コード
+       MI.ITEM_CD AS ITEM_CD -- item code
 ,
-       MI.CATEGORY AS ITEM_CATEGORY -- 商品カテゴリ
-FROM M_ITEM MI -- 商品マスタ
+       MI.CATEGORY AS ITEM_CATEGORY -- item category
+FROM M_ITEM MI -- item master
 
 WHERE 1 = 1
-  AND MI.ARRIVAL_DATE = '2016-12-01' -- 入荷日
+  AND MI.ARRIVAL_DATE = '2016-12-01' -- arrival date
 ```
 
-#### In case of uroboroSQL Formatter
+#### In case of Sublime uroboroSQL Formatter
 
 ```sql
 SELECT
-    MI.MAKER_CD AS  ITEM_MAKER_CD   -- メーカーコード
-,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- ブランドコード
-,   MI.ITEM_CD  AS  ITEM_CD         -- 商品コード
-,   MI.CATEGORY AS  ITEM_CATEGORY   -- 商品カテゴリ
+    MI.MAKER_CD AS  ITEM_MAKER_CD   -- maker code
+,   MI.BRAND_CD AS  ITEM_BRAND_CD   -- brand code
+,   MI.ITEM_CD  AS  ITEM_CD         -- item code
+,   MI.CATEGORY AS  ITEM_CATEGORY   -- item category
 FROM
-    M_ITEM  MI  -- 商品マスタ
+    M_ITEM  MI  -- item master
 WHERE
     1               =   1
-AND MI.ARRIVAL_DATE =   '2016-12-01'    -- 入荷日
+AND MI.ARRIVAL_DATE =   '2016-12-01'    -- arrival date
 
 ```
 
@@ -60,7 +62,9 @@ Settings
 {
     "uf_tab_size": 4,
     "uf_translate_tabs_to_spaces": true,
-    "uf_uppercase": true,
+    "uf_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
+    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE" // Put commas to separate reserved words
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
     "uf_save_on_format": true,
@@ -72,18 +76,22 @@ Settings
 	-	Specify the tab size of the indent after formatting. We recommend 4.
 -	uf_translate_tabs_to_spaces
 	-	Specify whether the indent after formatting is tab or space. It becomes a space by setting it to true.
-- uf_uppercase
-  - If you want to convert a reserved word and identifier to uppercase specifies true.
-- uf_comment_syntax
-  - It specifies the comment syntax format.
-  - You can specify the "uroboroSQL" or "doma2".
-    - In the case of normal SQL, you can specify either.
-- uf_escapesequence_u005c
-  - If you have specified the escape sequence with a backslash in the SQL to specify the true.
-- uf_save_on_format
-  - Specify true when formatting automatically when saving files.
-- uf_save_on_format_extensions
-  - Specify the extension of the file to be formatted in a list.
+-	uf_case
+	-	If you want to convert all words to a specific case, set "upper", "lower", "capitalize". If the "nochange" option is selected, the word cases will not be changed from the original.
+-	uf_reserved_case
+	-	If you want to convert reserved words to a specific case, set "upper", "lower" or "capitalize". If the "nochange" option is selected, it will not change the cases of resered words and they will be changed based on the "uf_case" setting.
+-	uf_reserved_words
+	-	If you want to convert only reserved words to a specific case, please input reserved words sepalated by a comma. (The input is not case sensitive. So you can input reserved words in any case.)
+-	uf_comment_syntax
+	-	It specifies the comment syntax format.
+	-	You can specify the "uroboroSQL" or "doma2".
+		-	In the case of normal SQL, you can specify either.
+-	uf_escapesequence_u005c
+	-	If you have specified the escape sequence with a backslash in the SQL to specify the true.
+-	uf_save_on_format
+	-	Specify true when formatting automatically when saving files.
+-	uf_save_on_format_extensions
+	-	Specify the extension of the file to be formatted in a list.
 
 License
 -------
@@ -92,4 +100,4 @@ License
 
 ---
 
-Copyright 2017 by Future Architect.
+Copyright 2018 by Future Architect.

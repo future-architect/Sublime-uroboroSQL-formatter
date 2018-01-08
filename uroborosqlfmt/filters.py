@@ -1786,3 +1786,56 @@ def is_zen(cval):
 
 def is_inc_cr(token):
     return token.is_whitespace() and ("\n" in token.value or "\r" in token.value)
+
+'''
+ReservedWordCaseFilter is used to convert Reserved words
+which are provided by a user.This class compares tokens
+with the reserved words.
+'''
+class ReservedWordCaseFilter():
+    ttype = None
+
+    def __init__(self, local_config):
+        if local_config.reserved_case == 'upper':
+            self.input_reserved_words = [word.upper() for word in local_config.input_reserved_words]
+        elif local_config.reserved_case == 'lower':
+            self.input_reserved_words = [word.lower() for word in local_config.input_reserved_words]
+        elif local_config.reserved_case == 'capitalize':
+            self.input_reserved_words = [word.capitalize() for word in local_config.input_reserved_words]
+
+        self.reserved_case = local_config.reserved_case
+
+        # for jython str.upper()
+        # self.convert = getattr(str, case)
+        def get_convert():
+            import sys
+            if sys.version_info[0] < 3:
+                unicodecase = getattr(unicode, local_config.reserved_case)
+                def convert(s):
+                    if isinstance(s, str):
+                        return unicodecase(s.decode('utf-8')).encode('utf-8')
+                    else:
+                        return unicodecase(s)
+                return convert
+            else:
+                return getattr(str, local_config.reserved_case)
+        self.convert = get_convert()
+
+    def process(self, stack, stream):
+        if self.reserved_case == 'upper':
+            for ttype, value in stream:
+                if value.upper() in self.input_reserved_words:
+                    value = self.convert(value)
+                yield ttype, value
+
+        if self.reserved_case == 'lower':
+            for ttype, value in stream:
+                if value.lower() in self.input_reserved_words:
+                    value = self.convert(value)
+                yield ttype, value
+
+        if self.reserved_case == 'capitalize':
+            for ttype, value in stream:
+                if value.capitalize() in self.input_reserved_words:
+                    value = self.convert(value)
+                yield ttype, value

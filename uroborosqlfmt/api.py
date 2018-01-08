@@ -141,10 +141,17 @@ def _parse_args(test_args=None):
         choices=['file', 'directory'], \
         help='format target. default "file"', \
         )
-
-    parser.add_argument('-N', '--nochange_case', \
-        action='store_true', \
-        help='UPPERCASE off.', \
+    parser.add_argument('-a', '--case', \
+        action='store', \
+        default=None, \
+        type=str, \
+        choices=['upper', 'lower', 'capitalize'], \
+        )
+    parser.add_argument('-e', '--reserved_case', \
+        action='store', \
+        default=None, \
+        type=str, \
+        choices=['upper', 'lower', 'capitalize'], \
         )
     parser.add_argument('-B', '--escapesequence_u005c', \
         action='store_true', \
@@ -156,6 +163,12 @@ def _parse_args(test_args=None):
         type=str, \
         choices=['uroborosql', 'doma2', 'uroboro', 'doma'], \
         help='SQL comment out syntax type.', \
+        )
+    parser.add_argument('-r', '--reserved_words_file_path', \
+        action='store', \
+        default=None, \
+        type=str, \
+        help='input reserved words file path.', \
         )
 
     return parser.parse_args(test_args)
@@ -171,16 +184,20 @@ def __execute():
     args = _parse_args()
 
     mode = args.mode
-    nochange_case = args.nochange_case
+    case = args.case
+    reserved_case = args.reserved_case
     escapesequence_u005c = args.escapesequence_u005c
     comment_syntax = args.comment_syntax
     input_path = args.input_path
     output_path = args.output_path
+    reserved_words_file_path = args.reserved_words_file_path
     local_config = LocalConfig()
 
-    set_uppercase(local_config, not nochange_case)
+    set_case(local_config, case)
+    set_reserved_case(local_config, reserved_case)
     set_escapesequence_u005c(escapesequence_u005c)
     set_comment_syntax(local_config, comment_syntax)
+    set_reserved_words(local_config, reserved_words_file_path)
 
     """
     The application requires either "file" or "directory"
@@ -199,8 +216,18 @@ def __execute():
     print("=====           End          =====")
 
 
-def set_uppercase(local_config, uppercase):
-    local_config.set_uppercase(uppercase)
+def set_case(local_config, case):
+    local_config.set_case(case)
+
+
+def set_reserved_case(local_config, reserved_case):
+    if local_config.case == None and local_config.reserved_case != None:
+        print ("You have to set [case(-a)]option, "\
+               "when you set [reserved_case(-e)]option.\n" \
+               "The applocation does not accept the reserved_case option individually.")
+        sys.exit("Application quitting...")
+    else:
+        local_config.set_reserved_case(reserved_case)
 
 
 def set_escapesequence_u005c(escapesequence_u005c):
@@ -214,6 +241,29 @@ def set_comment_syntax(local_config, comment_syntax):
         local_config.set_commentsyntax(commentsyntax.Doma2CommentSyntax())
     else:
         sys.exit()
+
+
+def set_reserved_words(local_config, reserved_words_file):
+    if reserved_words_file is not None:
+        try:
+            f = open(reserved_words_file, 'r')
+            lines = f.readlines()
+            f.close()
+        except IOError:
+            print("File I/O error: %s" % reserved_words_file)
+            print("Please check the file path.")
+            sys.exit("Application quitting...")
+        except:
+            print ("Unexpected error:", sys.exc_info()[0])
+            sys.exit("Application quitting...")
+        else:
+            reserved_words = []
+
+            for line in lines:
+                reserved_words.append(line.rstrip('\n').lower())  # Eliminate newline code.
+
+            local_config.set_input_reserved_words(reserved_words)
+
 
 if __name__ == "__main__":
     __execute()
