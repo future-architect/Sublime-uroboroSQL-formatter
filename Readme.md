@@ -1,7 +1,9 @@
-uroboroSQL Formatter
+Sublime uroboroSQL Formatter
 ====================
 
-UroboroSQL Formatter is often used in enterprise systems, For formatting to a highly maintainable style even for very long SQL (1 K step or more) It is a plug-in of Sublime Text 3.
+[![Package Control](https://img.shields.io/packagecontrol/dt/uroboroSQL%20Formatter.svg)](https://packagecontrol.io/packages/uroboroSQL%20Formatter)
+
+Sublime uroboroSQL Formatter is often used in enterprise systems, For formatting to a highly maintainable style even for very long SQL (1 K step or more) It is a plug-in of Sublime Text 3.
 
 In particular, in countries where English is not their mother tongue, such as Japan, comments may be included in SELECT clauses. In that case, we will align the vertical position of the AS clause and the comment, pursuing the viewability which can be said as artistic anymore, This was developed to realize this automatically.
 
@@ -23,7 +25,7 @@ WHERE 1 = 1
   AND MI.ARRIVAL_DATE = '2016-12-01' -- arrival date
 ```
 
-#### In case of uroboroSQL Formatter
+#### In case of Sublime uroboroSQL Formatter
 
 ```sql
 SELECT
@@ -98,4 +100,4 @@ License
 
 ---
 
-Copyright 2017 by Future Architect.
+Copyright 2018 by Future Architect.

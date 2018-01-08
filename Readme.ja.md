@@ -1,7 +1,9 @@
-uroboroSQL Formatter
+Sublime uroboroSQL Formatter
 ====================
 
-uroboroSQL Formatterは、エンタープライズシステムで用いられることの多い、  
+[![Package Control](https://img.shields.io/packagecontrol/dt/uroboroSQL%20Formatter.svg)](https://packagecontrol.io/packages/uroboroSQL%20Formatter)
+
+Sublime uroboroSQL Formatterは、エンタープライズシステムで用いられることの多い、  
 非常に長いSQL(1K step以上)でも見やすく保守性の高いスタイルへフォーマットするための  
 Sublime Text 3のプラグインです。
 
@@ -25,7 +27,7 @@ WHERE 1 = 1
   AND MI.ARRIVAL_DATE = '2016-12-01' -- 入荷日
 ```
 
-#### uroboroSQL Formatterの場合
+#### Sublime uroboroSQL Formatterの場合
 
 ```sql
 SELECT
@@ -101,4 +103,4 @@ License
 
 ---
 
-Copyright 2017 by Future Architect.
+Copyright 2018 by Future Architect.
