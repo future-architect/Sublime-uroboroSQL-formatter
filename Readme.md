@@ -64,7 +64,7 @@ Settings
     "uf_translate_tabs_to_spaces": true,
     "uf_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
     "uf_reserved_case": "upper", // "upper" or "lower" or "capitalize" or "nochange"
-    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE" // Put commas to separate reserved words
+    "uf_reserved_words":"SELECT, FROM, WHERE, CREATE", // Put commas to separate reserved words
     "uf_comment_syntax": "uroboroSQL", // "uroboroSQL" or "doma2"
     "uf_escapesequence_u005c": false,
     "uf_save_on_format": true,
